@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import {
 	pgTable,
 	integer,
@@ -14,8 +13,6 @@ export const refresh_tokens = pgTable("refresh_tokens", {
 		.notNull(),
 	token_hash: varchar("token_hash", { length: 256 }).notNull(),
 	created_at: timestamp().defaultNow().notNull(),
-	expires_at: timestamp()
-		.default(sql`NOW() + INTERVAL '7 days'`)
-		.notNull(),
+	expires_at: timestamp().notNull(),
 	revoked_at: timestamp(),
 });
