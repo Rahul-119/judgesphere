@@ -1,9 +1,6 @@
-import { generateAccessToken, verifyRefreshToken } from "../../utils/jwt.js";
-import { findByPublicId, findRefreshTokenByUserId, revokeRefreshTokenByUserId } from "./auth.repository.js";
 import { LoginSchema, RegisterSchema } from "./auth.schema.js";
 import { loginUser, logoutUser, refreshAccessToken, registerUser } from "./auth.service.js";
 import type { Request, Response } from "express";
-import bcrypt from "bcrypt";
 
 export async function register(req: Request, res: Response) {
     const result = RegisterSchema.safeParse(req.body);
@@ -121,4 +118,8 @@ export async function logout(req: Request, res: Response) {
             error: "Invalid refresh token"
         });
     }
+}
+
+export async function test(req: Request, res: Response) {
+    return res.json(req.user);
 }
