@@ -13,7 +13,7 @@ export async function findByEmail(email: string) {
     return result[0] ?? null;
 }
 
-export async function findByUsername(name:string) {
+export async function findByUsername(name: string) {
     const result = await db
     .select()
 	.from(users)
@@ -23,7 +23,7 @@ export async function findByUsername(name:string) {
     return result[0] ?? null;
 }
 
-export async function findRefreshTokenByUserId(userId:number) {
+export async function findRefreshTokenByUserId(userId: number) {
     const result = await db
     .select()
 	.from(refresh_tokens)
@@ -33,19 +33,19 @@ export async function findRefreshTokenByUserId(userId:number) {
     return result[0] ?? null;
 }
 
-export async function deleteRefreshTokenByUserId(userId:number) {
+export async function deleteRefreshTokenByUserId(userId: number) {
     await db
     .delete(refresh_tokens)
 	.where(eq(refresh_tokens.user_id, userId))
 }
 
-export async function revokeRefreshTokenByUserId(userId:number) {
+export async function revokeRefreshTokenByUserId(userId: number) {
     await db.update(refresh_tokens)
     .set({ revoked_at: sql`now()` })
     .where(eq(refresh_tokens.user_id, userId));
 }
 
-export async function findByPublicId(publicId:string) {
+export async function findByPublicId(publicId: string) {
     const result = await db
     .select()
 	.from(users)

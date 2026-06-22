@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1781563122497,
-      "tag": "0000_gifted_galactus",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1781721774418,
-      "tag": "0001_bored_albert_cleary",
+      "when": 1782043452296,
+      "tag": "0000_perpetual_captain_flint",
       "breakpoints": true
     }
   ]

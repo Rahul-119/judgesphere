@@ -8,4 +8,5 @@ router.post('/login', login);
 router.post('/logout', logout);
 router.post('/refresh', refresh);
 router.post('/test', authenticate, test);
+
 export default router;
