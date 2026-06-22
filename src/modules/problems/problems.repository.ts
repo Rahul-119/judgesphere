@@ -1,3 +1,5 @@
+import db from "../../db/index.js";
+import { eq } from "drizzle-orm";
 import { problem_examples } from "../../db/schema/problemExamples.js";
 import { problems } from "../../db/schema/problems.js";
 import { testcases } from "../../db/schema/testcases.js";
@@ -46,4 +48,39 @@ export async function createTestCases(tx: any, id: number, data: TestCase[]) {
         }))
     )
     .returning();
+}
+
+export async function findAllProblems() {
+    const res =  await db
+    .select()
+    .from(problems)
+
+    return res;
+}
+
+export async function findProblemByPublicId(id: string) {
+    const res =  await db
+    .select()
+    .from(problems).
+    where(eq(problems.public_id, id))
+
+    return res[0] ?? null;
+}
+
+export async function findProblemsByUserId(userId: number) {
+    const res =  await db
+    .select()
+    .from(problems).
+    where(eq(problems.created_by, userId))
+
+    return res;
+}
+
+export async function deleteProblemById(id: number) {
+    const res =  await db
+    .delete(problems)
+    .where(eq(problems.id, id))
+    .returning();
+
+    return res[0];
 }

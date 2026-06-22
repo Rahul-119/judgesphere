@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { problem } from "./problems.controller.js";
+import { createProblem, deleteProblem, getAllProblems, getMyProblems, getProblem } from "./problems.controller.js";
 import { authenticate } from "../../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.post('/', authenticate, problem);
-// router.get('/:id', authenticate, getProblem);
+router.post('/', authenticate, createProblem);
+router.get('/', getAllProblems);
+router.get('/me', authenticate, getMyProblems);
+router.get('/:id', getProblem);
+router.delete('/:id', authenticate, deleteProblem);
 
 export default router;
