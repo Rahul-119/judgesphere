@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { integer, pgTable, varchar, text, pgEnum, uuid, timestamp, decimal } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, text, pgEnum, uuid, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users.js";
 
 export const difficultyEnum = pgEnum('difficulty', ['EASY', 'MEDIUM', 'HARD']);
