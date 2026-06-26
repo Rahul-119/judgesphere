@@ -1,3 +1,4 @@
+import { addSubmissions } from "../../queue/submission.queue.js";
 import { findByPublicId } from "../auth/auth.repository.js";
 import { findProblemByPublicId } from "../problems/problems.repository.js";
 import { createSubmission } from "./submissions.repository.js";
@@ -14,10 +15,14 @@ export async function createSubmissionForUser(userId: string, data: submissionIn
 
     if(!problem) {
         throw new Error("Problem Not found");
-        
     }
 
     const submission = await createSubmission(currentUser.id, problem.id, data);
-
+    
+    if(!submission[0]) {
+        throw new Error("Submission Failed!");
+    }
+    
+    addSubmissions(submission[0].id);
     return submission;
 }

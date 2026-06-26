@@ -27,3 +27,7 @@ export const submissions = pgTable("submissions", {
     created_at: timestamp().defaultNow().notNull(),
     updated_at: timestamp().defaultNow().notNull(),
 })
+
+export type SubmissionStatus = typeof submissions.$inferSelect["status"];
+export type LanguageStatus = typeof submissions.$inferSelect["language"];
+export type VerdictStatus = typeof submissions.$inferSelect["verdict"];
