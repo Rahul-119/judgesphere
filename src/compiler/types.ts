@@ -18,10 +18,14 @@ export interface RunResult {
     error: string;
     exitCode: number | null;
     signal: string | null;
+    runtimeMs: number;
 }
 
 export type Verdict =
-    | { verdict: "AC" }
+    | { 
+        verdict: "AC";
+        runTimeMs: number;
+    }
     | { verdict: "WA" }
     | { verdict: "RE" }
     | { verdict: "TLE" }

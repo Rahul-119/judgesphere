@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import type { CompileResult } from "./types.js";
 
-export function compileCPP(sourceFile: string): Promise<CompileResult> {
+export function compileCPP(sourceFile: string, executablePath: string): Promise<CompileResult> {
     return new Promise((resolve, reject) => {
         const cpp = spawn('g++',[sourceFile, "-std=c++17","-o","main"])
 
