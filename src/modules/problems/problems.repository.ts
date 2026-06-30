@@ -1,5 +1,5 @@
 import db from "../../db/index.js";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { problem_examples } from "../../db/schema/problemExamples.js";
 import { problems } from "../../db/schema/problems.js";
 import { testcases } from "../../db/schema/testcases.js";
@@ -73,6 +73,20 @@ export async function findProblemsByUserId(userId: number) {
     .from(problems).
     where(eq(problems.created_by, userId))
 
+    return res;
+}
+
+export async function findHiddenTestCases(problemId: number) {
+    const res =  await db
+    .select()
+    .from(testcases).
+    where(
+        and(
+            eq(testcases.problem_id, problemId), 
+            eq(testcases.is_hidden, true)
+        )
+    );
+    
     return res;
 }
 

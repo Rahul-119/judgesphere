@@ -1,21 +1,61 @@
 import { Worker } from "bullmq";
-import { findSubmissionBySubmissionId, updateSubmission } from "../modules/submissions/submissions.repository.js";
+import { findSubmissionBySubmissionId, updateSubmissionResult } from "../modules/submissions/submissions.repository.js";
 import { redisConnection } from "../config/redis.js";
+import { createSandbox, deleteSandbox, writeSourceCode } from "../utils/sandbox.js";
+import { findHiddenTestCases } from "../modules/problems/problems.repository.js";
+import { execCPP } from "../executor/cpp.executor.js";
+import type { TestCase } from "../compiler/types.js";
 
 export const worker = new Worker('submissions',
     async (job) => {
         console.log(job.data);
+        const submission = await findSubmissionBySubmissionId(job.data.submissionId);
+        if(!submission) {
+            throw new Error("Submission not found!");
+        }
+        const workingDir = createSandbox(submission.public_id);
+
         try {  
-            await findSubmissionBySubmissionId(job.data.submissionId);
+            await updateSubmissionResult(job.data.submissionId, "RUNNING", null, 0, 0);
 
-            await updateSubmission(job.data.submissionId, "RUNNING", null);
+            writeSourceCode(submission.source_code, workingDir, submission.language);
+            const hiddenTestCases = await findHiddenTestCases(submission.problem_id);
 
-            await new Promise((resolve) => setTimeout(resolve, 5000))
+            if (hiddenTestCases.length === 0) {
+                throw new Error("Problem has no hidden test cases.");
+            }
+            const testCases: TestCase[] = hiddenTestCases.map((testCase) => ({
+                input: testCase.input,
+                expectedOutput: testCase.expected_output
+            }))
 
-            await updateSubmission(job.data.submissionId, "FINISHED", "AC");
+            let res;
+            switch (submission.language) {
+                case "CPP":
+                    res = await execCPP(workingDir, testCases);
+                    break;
+                // case "JAVA":
+                //     res = await execJava(workingDir, testCases);
+                //     break;
+                // case "PYTHON":
+                //     res = await execPython(workingDir, testCases);
+                //     break;
+                // case "JAVASCRIPT":
+                //     res = await execJavaScript(workingDir, testCases);
+                //     break;
+                default:
+                    throw new Error("Language Not Implemented");
+            }   
+
+            await updateSubmissionResult(job.data.submissionId, "FINISHED", res.verdict, Math.round(res.runTimeMs), res.passedTestCases, testCases.length);
+
+            return res;
         } catch (error) {
-            await updateSubmission(job.data.submissionId, "FINISHED", "INTERNAL_ERROR");
+            console.error("Worker error:", error);
+            await updateSubmissionResult(job.data.submissionId, "FINISHED", "INTERNAL_ERROR", 0, 0);
             throw error;
+        } finally {
+            deleteSandbox(workingDir)
         }
     },
     {

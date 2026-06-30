@@ -13,7 +13,7 @@ export function run(executable: string, input: string, timeout = 1500): Promise<
         run.on("error", (err) => {
             reject(err);
         });
-
+        
         run.stdin.write(input + "\n");
         run.stdin.end();
 

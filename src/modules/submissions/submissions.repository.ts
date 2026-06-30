@@ -42,10 +42,10 @@ export async function findSubmissionBySubmissionId(submissionId: number) {
     return submission[0] ?? null;
 }
 
-export async function updateSubmission(submissionId: number, status: SubmissionStatus, verdict: VerdictStatus) {
+export async function updateSubmissionResult(submissionId: number, status: SubmissionStatus, verdict: VerdictStatus, runTimeMs: number, passedTestCases: number, totalTestCases?: number) {
     const submission = await db
     .update(submissions)
-    .set({status: status, verdict: verdict})
+    .set({status: status, verdict: verdict, runtime_ms: runTimeMs, passed_testcases: passedTestCases, total_testcases: totalTestCases})
     .where(eq(submissions.id, submissionId))
     .returning()
 
