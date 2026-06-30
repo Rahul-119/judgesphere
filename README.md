@@ -1,6 +1,6 @@
 # JudgeSphere
 
-JudgeSphere is an online judge platform inspired by LeetCode and Codeforces. It allows users to solve programming problems, submit solutions, and receive automated verdicts through an isolated Docker-based execution environment.
+JudgeSphere is a backend system for an online programming judge. It provides REST APIs for authentication, problem management, submissions, and isolated code execution using Docker and BullMQ.
 
 The project is built with a scalable backend architecture using Node.js, Express, PostgreSQL, Redis, BullMQ, Docker, and TypeScript.
 
@@ -33,16 +33,15 @@ The project is built with a scalable backend architecture using Node.js, Express
 * View My Submissions
 * Submission History
 
-### Judge Engine
+## Judge Engine
 
-* BullMQ Job Queue
-* Background Workers
-* Docker Sandbox Execution
-* C++ Compilation using GCC
-* Hidden Test Case Execution
-* Automatic Verdict Generation
-* Runtime Measurement
-* Automatic Sandbox Cleanup
+- Asynchronous submission processing using BullMQ
+- Docker-based sandboxed execution
+- Language-specific execution pipeline
+- Hidden test case evaluation
+- Automatic verdict generation
+- Runtime measurement
+- Sandbox lifecycle management
 
 ---
 
@@ -125,31 +124,31 @@ src/
 ## Architecture
 
 ```text
-                                Client
-                    │
-                    ▼
-               Express API
-              ┌──────┴──────┐
-              ▼             ▼
-         PostgreSQL       Redis
+                    Client
+                       │
+                       ▼
+                  Express API
+                 ┌─────┴─────┐
+                 ▼           ▼
+           PostgreSQL      Redis
                               │
                               ▼
                          BullMQ Queue
                               │
                               ▼
-                     Submission Worker
+                      Submission Worker
                               │
                               ▼
-                     Docker Sandbox
+                       Docker Sandbox
                               │
                               ▼
-                 Compile & Execute Code
+                  Compile & Execute Code
                               │
                               ▼
-                    Generate Verdict
+                     Generate Verdict
                               │
                               ▼
-                     Update Database
+                      Update Database
 ```
 
 ---
@@ -225,11 +224,6 @@ JWT_ACCESS_SECRET=your_access_secret
 
 JWT_REFRESH_SECRET=your_refresh_secret
 ```
-### Build the Docker image
-
-```bash
-docker build -t judgesphere-cpp .
-```
 
 ### Start PostgreSQL & Redis
 
@@ -295,21 +289,15 @@ GET  /api/v1/submissions/:id
 
 ## Roadmap
 
-* Java Support
-* Python Support
-* JavaScript Support
-* Socket.IO Live Verdict Updates
-* Memory Usage Measurement
-* Docker Resource Limits
-* Output Limit Exceeded (OLE)
-* Presentation Error (PE)
-* Rejudge Support
-* Custom Test Runs
-* Frontend (React)
-* Online Code Editor
-
----
-
-## License
-
-This project is developed for learning, experimentation, and portfolio purposes.
+- Java Support
+- Python Support
+- JavaScript Support
+- Socket.IO live submission updates
+- Memory usage measurement
+- Docker resource limits
+- Output Limit Exceeded (OLE)
+- Presentation Error (PE)
+- Rejudge support
+- Object storage for source code
+- Distributed workers
+- Execution metrics and monitoring
