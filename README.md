@@ -103,6 +103,8 @@ src/
 ├── executor/
 │   ├── docker.ts
 │   └── cpp.executor.ts
+│   └── java.executor.ts
+│   └── types.ts
 │
 ├── middleware/
 │
@@ -167,8 +169,9 @@ src/
 ## Supported Languages
 
 * C++
+* Java
 
-More languages (Java, Python, JavaScript) are planned.
+More languages (Python, JavaScript) are planned.
 
 ---
 
@@ -237,7 +240,7 @@ npx drizzle-kit migrate
 ### Build the Docker image
 
 ```bash
-docker build -t judgesphere-cpp .
+docker build -t judgesphere-executor .
 ```
 
 This image contains the C++ compiler used by the judge engine.
@@ -289,7 +292,6 @@ GET  /api/v1/submissions/:id
 
 ## Roadmap
 
-- Java Support
 - Python Support
 - JavaScript Support
 - Socket.IO live submission updates

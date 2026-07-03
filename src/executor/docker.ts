@@ -10,7 +10,7 @@ interface ExecResult {
 export function startContainer(workingDirectory: string): Promise<string> {
     return new Promise((resolve, reject) =>{
         
-        const docker = spawn("docker", ["run", "--rm", "-d", "-v", `${workingDirectory}:/workspace`, "judgesphere-cpp", "tail", "-f", "/dev/null"])
+        const docker = spawn("docker", ["run", "--rm", "-d", "-v", `${workingDirectory}:/workspace`, "judgesphere-executor", "tail", "-f", "/dev/null"])
 
         let containerId = "";
         docker.stdout.on("data", (data) => {

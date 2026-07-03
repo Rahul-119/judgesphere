@@ -5,6 +5,7 @@ import { createSandbox, deleteSandbox, writeSourceCode } from "../utils/sandbox.
 import { findHiddenTestCases } from "../modules/problems/problems.repository.js";
 import { execCPP } from "../executor/cpp.executor.js";
 import type { TestCase } from "../executor/types.js";
+import { execJava } from "../executor/java.executor.js";
 
 export const worker = new Worker('submissions',
     async (job) => {
@@ -34,9 +35,9 @@ export const worker = new Worker('submissions',
                 case "CPP":
                     res = await execCPP(workingDir, testCases);
                     break;
-                // case "JAVA":
-                //     res = await execJava(workingDir, testCases);
-                //     break;
+                case "JAVA":
+                    res = await execJava(workingDir, testCases);
+                    break;
                 // case "PYTHON":
                 //     res = await execPython(workingDir, testCases);
                 //     break;
