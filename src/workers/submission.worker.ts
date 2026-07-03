@@ -4,7 +4,7 @@ import { redisConnection } from "../config/redis.js";
 import { createSandbox, deleteSandbox, writeSourceCode } from "../utils/sandbox.js";
 import { findHiddenTestCases } from "../modules/problems/problems.repository.js";
 import { execCPP } from "../executor/cpp.executor.js";
-import type { TestCase } from "../compiler/types.js";
+import type { TestCase } from "../executor/types.js";
 
 export const worker = new Worker('submissions',
     async (job) => {

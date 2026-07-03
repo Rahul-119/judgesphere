@@ -1,5 +1,5 @@
 import { execInContainer, startContainer, stopContainer } from "./docker.js";
-import type { TestCase } from "../compiler/types.js";
+import type { TestCase } from "./types.js";
 import type { VerdictStatus } from "../db/schema/submissions.js";
 
 type ExecResult =
